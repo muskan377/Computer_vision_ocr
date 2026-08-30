@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+    >
+
+    <title>ScoreVision — Bowling OCR</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<main class="shell">
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+
+            <div class="logo">
+                SV
+            </div>
+
+            <div>
+                <h1>ScoreVision</h1>
+
+                <p>
+                    Bowling scoreboard extraction • Computer Vision
+                </p>
+            </div>
+
+        </div>
+
+        <div class="pill">
+            <span class="dot"></span>
+            Local CV Engine
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div>
+
+            <div class="eyebrow">
+                ASSIGNMENT DEMO
+            </div>
+
+            <h2>
+                Extract scoreboard data
+                <br>
+                <span>from video frames.</span>
+            </h2>
+
+            <p class="lead">
+                Upload the bowling video and the pipeline will locate
+                the scoreboard, run EasyOCR, fuse repeated observations
+                and return structured data.
+            </p>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+        <div
+            class="upload"
+            id="drop"
+        >
+
+            <div class="uploadIcon">
+                ↥
+            </div>
+
+            <div>
+                <b>
+                    Drop a video here
+                </b>
+
+                <span id="fileName">
+                    or click to browse • MP4 / MOV / AVI / MKV
+                </span>
+            </div>
+
+            <video
+                id="preview"
+                class="preview hidden"
+                controls
+                muted
+            ></video>
+
+            <input
+                id="file"
+                type="file"
+                accept="video/*"
+            >
+
+            <button id="analyze">
+                Analyze video
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PIPELINE -->
+    <section class="pipeline">
+
+        <div class="step">
+            <b>01</b>
+            <span>Frame sampling</span>
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="step">
+            <b>02</b>
+            <span>Scoreboard ROI</span>
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="step">
+            <b>03</b>
+            <span>EasyOCR + validation</span>
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="step">
+            <b>04</b>
+            <span>Temporal fusion</span>
+        </div>
+
+    </section>
+
+
+    <!-- PROCESSING STATUS -->
+    <section
+        id="status"
+        class="status hidden"
+    >
+
+        <div class="barTop">
+
+            <div>
+
+                <small id="statusKicker">
+                    PROCESSING
+                </small>
+
+                <h3 id="statusText">
+                    Reading video…
+                </h3>
+
+            </div>
+
+            <strong id="statusPct">
+                0%
+            </strong>
+
+        </div>
+
+        <div class="bar">
+            <i id="progress"></i>
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+    <section
+        id="results"
+        class="hidden"
+    >
+
+        <div class="sectionTitle">
+
+            <div>
+
+                <div class="eyebrow">
+                    RESULT
+                </div>
+
+                <h3>
+                    Extracted scoreboard
+                </h3>
+
+            </div>
+
+            <div
+                id="meta"
+                class="meta"
+            ></div>
+
+        </div>
+
+
+        <!-- CURRENT PLAYER -->
+        <div
+            class="card"
+            style="margin-bottom:16px;"
+        >
+
+            <div class="cardHead">
+
+                <span>
+                    Current player
+                </span>
+
+                <span class="tag">
+                    EasyOCR
+                </span>
+
+            </div>
+
+            <div
+                id="currentPlayer"
+                style="
+                    font-size:22px;
+                    font-weight:700;
+                    padding:10px 0;
+                "
+            >
+                —
+            </div>
+
+        </div>
+
+
+        <div class="resultGrid">
+
+
+            <!-- DETECTED FRAME -->
+            <div class="card videoCard">
+
+                <div class="cardHead">
+
+                    <span>
+                        Detected frame
+                    </span>
+
+                    <span class="tag">
+                        CV ROI
+                    </span>
+
+                </div>
+
+                <img
+                    id="best"
+                    alt="Annotated detected scoreboard"
+                >
+
+                <div class="caption">
+                    Green box = detected scoreboard region
+                </div>
+
+            </div>
+
+
+            <!-- STRUCTURED DATA -->
+            <div class="card dataCard">
+
+                <div class="cardHead">
+
+                    <span>
+                        Structured data
+                    </span>
+
+                    <div>
+
+                        <a
+                            id="json"
+                            class="link"
+                            href="#"
+                            target="_blank"
+                        >
+                            JSON
+                        </a>
+
+                        <a
+                            id="csv"
+                            class="link"
+                            href="#"
+                            target="_blank"
+                        >
+                            CSV
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div id="scoreTable"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- METHOD -->
+    <section class="note">
+
+        <b>Method:</b>
+
+        OpenCV frame sampling +
+        fixed calibrated scoreboard ROI +
+        EasyOCR +
+        cell-level OCR +
+        multi-frame consensus.
+
+        The ROI is configurable in
+        <code>src/config.py</code>.
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        ScoreVision • Company assignment build
+    </footer>
+
+</main>
+
+
+<script src="/static/app.js"></script>
+
+</body>
+</html>

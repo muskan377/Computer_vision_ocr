@@ -1,0 +1,63 @@
+{
+  "video": "bowling_scoreboard.mp4",
+  "video_info": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "frames": 1735,
+    "duration_seconds": 57.83
+  },
+  "scoreboard_roi": [
+    40,
+    22,
+    1890,
+    705
+  ],
+  "frames_sampled": 79,
+  "scoreboard_frames_detected": 56,
+  "ocr_frames_used": 8,
+  "current_name": "VISHAL",
+  "current_name_confidence": 0.9,
+  "players": {
+    "J": {
+      "raw_text": "\u00a30\\ 2747131",
+      "confidence": 0.54,
+      "numbers_detected": [
+        "0"
+      ],
+      "observations": 8
+    },
+    "V": {
+      "raw_text": "/8-3-|7181/99 | yy] | ft 4 al | \u2122f)",
+      "confidence": 0.463,
+      "numbers_detected": [
+        "8",
+        "3",
+        "99",
+        "4"
+      ],
+      "observations": 8
+    },
+    "P": {
+      "raw_text": "ME ee ee",
+      "confidence": 0.4,
+      "numbers_detected": [],
+      "observations": 8
+    },
+    "T": {
+      "raw_text": "T/3-34 \u00a9",
+      "confidence": 0.61,
+      "numbers_detected": [
+        "3",
+        "34"
+      ],
+      "observations": 8
+    }
+  },
+  "artifacts": {
+    "json": "scoreboard_data.json",
+    "csv": "scoreboard_data.csv",
+    "best_frame": "annotated/best_frame.jpg",
+    "scoreboard_crop": "annotated/scoreboard_crop.jpg"
+  }
+}
